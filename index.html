@@ -8,7 +8,7 @@
     function getComputerChoice() {
       let choiceText = "";
       let choiceNum = Math.floor(Math.random() * 3);
-      switch(choiceNum) {
+      switch (choiceNum) {
         case 0:
           choiceText = "rock";
           break;
@@ -24,8 +24,24 @@
       return choiceText;
     }
 
+    function getHumanChoice() {
+      let choice = "";
+      let validChoice = false;
+      while (!validChoice) {
+        choice = prompt("Enter your choice").toLowerCase();
+        if (choice == "rock" || choice == "paper" || choice == "scissors") {
+          validChoice = true;
+        }
+      }
+      return choice;
+    }
+
+    let humanScore, computerScore = 0;
+
     let computerChoice = getComputerChoice();
     console.log(computerChoice);
+    let humanChoice = getHumanChoice();
+    console.log(humanChoice);
   </script>
 </head>
 <body>
