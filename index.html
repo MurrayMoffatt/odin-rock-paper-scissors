@@ -36,12 +36,34 @@
       return choice;
     }
 
-    let humanScore, computerScore = 0;
+    function playRound(humanChoice, computerChoice) {
+      let humanWins = false;
+      console.log(`You picked ${humanChoice}`);
+      console.log(`Computer picked ${computerChoice}`);
+      if (humanChoice == computerChoice) {
+        console.log("It's a tie");
+      } else {
+        if (humanChoice == "rock" && computerChoice == "scissors") {
+          humanWins = true;
+        } else if (humanChoice == "paper" && computerChoice == "rock") {
+          humanWins = true;
+        } else if (humanChoice == "scissors" && computerChoice == "paper") {
+          humanWins = true;
+        }
+        if (humanWins) {
+            console.log(`You win! ${humanChoice} beats ${computerChoice}`);
+            humanScore++;
+        } else {
+          console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
+          computerScore++;
+        }
+      }
+    }
 
-    let computerChoice = getComputerChoice();
-    console.log(computerChoice);
+    let humanScore, computerScore = 0;
     let humanChoice = getHumanChoice();
-    console.log(humanChoice);
+    let computerChoice = getComputerChoice();
+    playRound(humanChoice, computerChoice);
   </script>
 </head>
 <body>
