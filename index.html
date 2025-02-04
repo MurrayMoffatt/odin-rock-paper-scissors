@@ -24,70 +24,73 @@
       return choiceText;
     }
 
-    function getHumanChoice() {
-      let choice = "";
-      let validChoice = false;
-      while (!validChoice) {
-        choice = prompt("Enter your choice").toLowerCase();
-        if (choice == "rock" || choice == "paper" || choice == "scissors") {
-          validChoice = true;
-        }
-      }
-      return choice;
-    }
-
     function capitalizeFirstLetter(val) {
       return String(val).charAt(0).toUpperCase() + String(val).slice(1);
     }
 
-    function playGame() {
-      let humanScore = 0, computerScore = 0;
+    function playRound(humanChoice, computerChoice) {
+      let humanWins = false;
+      const results = document.querySelector("#results");
+      let result = `You picked ${humanChoice}<br>Computer picked ${computerChoice}<br>`;
 
-      function playRound(humanChoice, computerChoice) {
-        let humanWins = false;
-        console.log(`You picked ${humanChoice}`);
-        console.log(`Computer picked ${computerChoice}`);
-        if (humanChoice == computerChoice) {
-          console.log("It's a tie");
+      if (humanChoice == computerChoice) {
+        result += "It's a tie";
+      } else {
+        if (humanChoice == "Rock" && computerChoice == "Scissors") {
+          humanWins = true;
+        } else if (humanChoice == "Paper" && computerChoice == "Rock") {
+          humanWins = true;
+        } else if (humanChoice == "Scissors" && computerChoice == "Paper") {
+          humanWins = true;
+        }
+        if (humanWins) {
+          result += `You win! ${humanChoice} beats ${computerChoice}`;
+          humanScore++;
         } else {
-          if (humanChoice == "Rock" && computerChoice == "Scissors") {
-            humanWins = true;
-          } else if (humanChoice == "Paper" && computerChoice == "Rock") {
-            humanWins = true;
-          } else if (humanChoice == "Scissors" && computerChoice == "Paper") {
-            humanWins = true;
-          }
-          if (humanWins) {
-              console.log(`You win! ${humanChoice} beats ${computerChoice}`);
-              humanScore++;
-          } else {
-            console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
-            computerScore++;
-          }
+          result += `You lose! ${computerChoice} beats ${humanChoice}`;
+          computerScore++;
         }
       }
 
-      for (let i = 0; i < 5; i++) {
-        let humanChoice = capitalizeFirstLetter(getHumanChoice());
-        let computerChoice = capitalizeFirstLetter(getComputerChoice());
-        playRound(humanChoice, computerChoice);
-      }
+      const score = document.querySelector("#score");
+      score.innerHTML = `Human score: ${humanScore}<br>Computer score: ${computerScore}`;
 
-      console.log(`Human score: ${humanScore}`);
-      console.log(`Computer score: ${computerScore}`);
-      if (humanScore > computerScore) {
-        console.log("You win!");
-      } else if (computerScore > humanScore) {
-        console.log("Computer wins!");
+      if (humanScore >= 5 || computerScore >= 5) {
+        if (humanScore > computerScore) {
+          result += "<br><br>You win the game!";
+        } else {
+          result += "<br><br>Computer wins the game!";
+        }
+        humanScore = 0;
+        computerScore = 0;
       } else {
-        console.log("It's a tie!");
+        result += "<br><br>First to 5 wins<br>Click a button above to continue playing";
       }
+      results.innerHTML = result;
     }
-
-    playGame();
   </script>
 </head>
 <body>
+  <h1>Rock, Paper, Scissors</h1>
+  <p>Your selection:</p>
+  <button id="btnRock" value="rock">Rock</button>
+  <button id="btnPaper" value="paper">Paper</button>
+  <button id="btnScissors" value="scissors">Scissors</button>
+  <h2>Result</h2>
+  <div id="results">Click a button above to start playing</div>
+  <h2>Score</h2>
+  <div id="score">Human Score: 0<br>Computer Score: 0</div>
+  <script>
+    let humanScore = 0, computerScore = 0;
 
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        let humanChoice = capitalizeFirstLetter(button.value);
+        let computerChoice = capitalizeFirstLetter(getComputerChoice());
+        playRound(humanChoice, computerChoice);
+      });
+    });
+  </script>
 </body>
 </html>
